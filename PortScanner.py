@@ -15,11 +15,13 @@ for i in range(int(rangoParse[0]), int(rango)):
     for linea in response.readlines():
         if ("ttl" in linea.lower()):
             print(host, "esta activo")
-            s = socket.socket(AF_INET, SOCK_STREAM)
             print("Escaneando puertos de: " + host + "\n")
             for j in range(10, 8081):
                 if j in puertos:
+                    s = socket.socket(AF_INET, SOCK_STREAM)
+                    s.settimeout(4.0)
                     conn = s.connect_ex((host, j))
+                    s.settimeout(None)
                     if (conn == 0):
                         print(host + ' Puerto: ' + str(j) + ' OPEN \n')
                         s.close()
